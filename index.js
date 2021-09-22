@@ -35,9 +35,9 @@ require('fs').readFile(getInput('UPFILE'), (err, content) =>
 	];
 	httpsPost(
 		{
-			hostname: getInput('HOSTNAME');
-			path: getInput('PATH');
-			method: getInput('METHOD');
+			hostname: getInput('HOSTNAME'),
+			path: getInput('PATH'),
+			method: getInput('METHOD'),
 			headers: {
 				'Content-Type': `multipart/form-data; boundary=${boundary}`
 			}
