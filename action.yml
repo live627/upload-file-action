@@ -5,8 +5,11 @@ branding:
   icon: arrow-right-circle
   color: gray-dark
 inputs:
-  url:
-    description: 'Web request URL endpoint'
+  hostname:
+    description: Web requestL endpoint
+    required: true
+  path:
+    description: Web requestL endpoint
     required: true
   method:
     description: 'Web request method (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`)'
