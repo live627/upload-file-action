@@ -1,7 +1,7 @@
 import { request } from 'http';
 import { readFile } from 'fs';
 
-const httpsPost = (options, body) => new Promise((resolve,reject) =>
+const httpsPost = (options, body) => new Promise((resolve, reject) =>
 {
 	const req = request(options, res =>
 	{
@@ -13,14 +13,14 @@ const httpsPost = (options, body) => new Promise((resolve,reject) =>
 			resolve(res);
 		});
 	});
-	req.on('error',reject);
+	req.on('error', reject);
 	req.write(body);
 	req.end();
 });
 
 const getInput = x => (process.env['INPUT_' + x] || '').trim();
 
-readFile(getInput('upfile'), (err, content) =>
+readFile(getInput('UPFILE'), (err, content) =>
 {
 	if (err)
 		console.error(err);
@@ -29,7 +29,7 @@ readFile(getInput('upfile'), (err, content) =>
 	const boundaryString =  `--${boundary}\r\n`;
 	const data = [
 		boundaryString,
-		Object.entries(getInput('metadata').split("\n").filter(x => x !== ""))
+		Object.entries(getInput('METADATA').split("\n").filter(x => x !== ""))
 			.map(([key, val]) => `Content-Disposition: form-data; name="${key}"; \r\n\r\n${val}\r\n`)
 			.join(boundaryString),
 		boundaryString,
@@ -38,9 +38,9 @@ readFile(getInput('upfile'), (err, content) =>
 	];
 	httpsPost(
 		{
-			hostname: getInput('hostname');
-			path: getInput('path');
-			method: getInput('method');
+			hostname: getInput('HOSTNAME');
+			path: getInput('PATH');
+			method: getInput('METHOD');
 			headers: {
 				'Content-Type': `multipart/form-data; boundary=${boundary}`
 			}
