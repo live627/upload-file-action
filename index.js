@@ -1,9 +1,6 @@
-import { request } from 'http';
-import { readFile } from 'fs';
-
 const httpsPost = (options, body) => new Promise((resolve, reject) =>
 {
-	const req = request(options, res =>
+	const req = require('https').request(options, res =>
 	{
 		let data = '';
 		res.on('data', chunk => data += chunk);
@@ -20,7 +17,7 @@ const httpsPost = (options, body) => new Promise((resolve, reject) =>
 
 const getInput = x => (process.env['INPUT_' + x] || '').trim();
 
-readFile(getInput('UPFILE'), (err, content) =>
+require('fs').readFile(getInput('UPFILE'), (err, content) =>
 {
 	if (err)
 		console.error(err);
