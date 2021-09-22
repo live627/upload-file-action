@@ -12,16 +12,12 @@ inputs:
     description: 'Web request method (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`)'
     required: true
     default: POST
-  forms:
-    description: Data to be transmitted,such as key, pwd, etc. Use json format
+  metadata:
+    description: Data to transmit
     required: false
-  fileForms:
-    description: Files to be transferred,such as 'file','image' etc. Use json format
-    required: false
-
-outputs:
-  output:
-    description: 'data output from the upload file'
+  upfile:
+    description: File to transfer
+    required: true
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: node12
+  main: index.mjs
