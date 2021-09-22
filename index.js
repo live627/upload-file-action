@@ -16,8 +16,8 @@ const httpsPost = (options, body) => new Promise((resolve, reject) =>
 });
 
 const getInput = x => (process.env['INPUT_' + x] || '').trim();
-
-require('fs').readFile(getInput('UPFILE'), (err, content) =>
+const upfile = getInput('UPFILE');
+require('fs').readFile(upfile, (err, content) =>
 {
 	if (err)
 		console.error(err);
