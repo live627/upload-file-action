@@ -44,7 +44,7 @@ require('fs').readFile(upfile, (err, content) =>
 			}
 		},
 		Buffer.concat([
-			Buffer.from(data, 'utf8'),
+			Buffer.from(data.join(''), 'utf8'),
 			Buffer.from(content, 'binary'),
 			Buffer.from(`\r\n--${boundary}--\r\n`, 'utf8')
 		])
