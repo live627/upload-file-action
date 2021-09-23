@@ -5,10 +5,7 @@ branding:
   icon: arrow-right-circle
   color: gray-dark
 inputs:
-  hostname:
-    description: Web requestL endpoint
-    required: true
-  path:
+  url:
     description: Web requestL endpoint
     required: true
   method:
