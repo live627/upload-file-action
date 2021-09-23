@@ -25,10 +25,9 @@ require('fs').readFile(upfile, (err, content) =>
 	const boundary = 'xxxxxxxxxx';
 	const boundaryString =  `--${boundary}\r\n`;
 	const data = [
-		boundaryString,
 		parseMap(getInput('METADATA'))
-			.map(([key, val]) => `Content-Disposition: form-data; name="${key}"; \r\n\r\n${val}\r\n`)
-			.join(boundaryString),
+			.map(([key, val]) => `${boundaryString}Content-Disposition: form-data; name="${key}"; \r\n\r\n${val}\r\n`)
+			.join(''),
 		boundaryString,
 		`Content-Disposition: form-data; name="upfile"; filename="${upfile}"\r\n`,
 		'Content-Type: application/octet-stream\r\n\r\n'
