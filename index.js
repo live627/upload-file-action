@@ -14,7 +14,7 @@ const httpsPost = (options, body) => new Promise((resolve, reject) =>
 	req.write(body);
 	req.end();
 });
-
+const parseMap = x => x.split('\n').filter(x => x !== '').map(x => x.split(':')).map(x => x.trim());
 const getInput = x => (process.env['INPUT_' + x] || '').trim();
 const upfile = getInput('UPFILE');
 require('fs').readFile(upfile, (err, content) =>
@@ -26,7 +26,7 @@ require('fs').readFile(upfile, (err, content) =>
 	const boundaryString =  `--${boundary}\r\n`;
 	const data = [
 		boundaryString,
-		Object.entries(getInput('METADATA').split("\n").filter(x => x !== ""))
+		parseMap(getInput('METADATA'))
 			.map(([key, val]) => `Content-Disposition: form-data; name="${key}"; \r\n\r\n${val}\r\n`)
 			.join(boundaryString),
 		boundaryString,
@@ -43,7 +43,7 @@ require('fs').readFile(upfile, (err, content) =>
 			}
 		},
 		Buffer.concat([
-			Buffer.from(data.join(''), 'utf8'),
+			Buffer.from(data, 'utf8'),
 			Buffer.from(content, 'binary'),
 			Buffer.from(`\r\n--${boundary}--\r\n`, 'utf8')
 		])
