@@ -1,6 +1,6 @@
 const httpsPost = (options, body) => new Promise((resolve, reject) =>
 {
-	const req = require('https').request(options, res =>
+	const req = require('http').request(options, res =>
 	{
 		let data = '';
 		res.on('data', chunk => data += chunk);
