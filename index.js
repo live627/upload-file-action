@@ -35,7 +35,8 @@ require('fs').readFile(upfile, (err, content) =>
 	];
 	httpsPost(
 		{
-			hostname: getInput('HOSTNAME'),
+			hostname: getInput('HOSTNAME').split(':')[0],
+			port: getInput('HOSTNAME').split(':')[1],
 			path: getInput('PATH'),
 			method: getInput('METHOD'),
 			headers: {
