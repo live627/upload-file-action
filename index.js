@@ -14,7 +14,7 @@ const httpsPost = (options, body) => new Promise((resolve, reject) =>
 	req.write(body);
 	req.end();
 });
-const parseMap = x => x.split('\n').filter(x => x !== '').map(x => x.split(':')).map(x => x.trim());
+const parseMap = x => x.split('\n').filter(x => x !== '').map(x => x.split(':').map(x => x.trim()));
 const getInput = x => (process.env['INPUT_' + x] || '').trim();
 const upfile = getInput('UPFILE');
 require('fs').readFile(upfile, (err, content) =>
@@ -32,16 +32,21 @@ require('fs').readFile(upfile, (err, content) =>
 		`Content-Disposition: form-data; name="upfile"; filename="${upfile}"\r\n`,
 		'Content-Type: application/octet-stream\r\n\r\n'
 	];
+	const reqUrl = getInput('URL'), urlObj = new URL(reqUrl);
+	if (!/^https?:\/\/[a-zA-Z0-9\.-]+(?::[0-9]{1,5})?\/[^\s]*$/.test(reqUrl))
+		throw new Error('Invalid URL');
+	let reqOpts = {
+		path: urlObj.pathname,
+		method: getInput('METHOD'),
+		headers: {
+			'Content-Type': `multipart/form-data; boundary=${boundary}`
+		}
+	};
+	for (let x of ['hostname', 'port', 'protocol'])
+		if (urlObj[x])
+			reqOpts[x] = urlObj[x];
 	httpsPost(
-		{
-			hostname: getInput('HOSTNAME').split(':')[0],
-			port: getInput('HOSTNAME').split(':')[1],
-			path: getInput('PATH'),
-			method: getInput('METHOD'),
-			headers: {
-				'Content-Type': `multipart/form-data; boundary=${boundary}`
-			}
-		},
+		reqOpts,
 		Buffer.concat([
 			Buffer.from(data.join(''), 'utf8'),
 			Buffer.from(content, 'binary'),
